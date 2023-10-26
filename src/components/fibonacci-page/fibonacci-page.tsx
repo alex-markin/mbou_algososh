@@ -12,7 +12,6 @@ import { Circle } from "../ui/circle/circle";
 // utils & constants
 import { fibonacci } from "../../services/algrorithms/fibonacci";
 import { DELAY_IN_MS } from "../../constants/delays";
-import { renderItemsWithDelay } from "../../utils/render-items-with-delay";
 
 
 export const FibonacciPage: React.FC = () => {

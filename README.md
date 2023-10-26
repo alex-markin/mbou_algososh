@@ -312,3 +312,23 @@ const arr = [25, 50, 100];
 ## Отправка работы на проверку
 
 Когда будете готовы показать код-ревьюеру финальный результат, отправьте ссылку на пул-реквест, открытый из ветки `month-12/step-1`, в `main` через интерфейс Практикума. Отправить ссылку можно в отдельном уроке, который доступен [по ссылке](https://praktikum.yandex.ru/trainer/web-plus/lesson/a2bd2943-6f29-43df-a749-c4cb88f6301b/). В этом уроке находится интерфейс финальной сдачи проектной работы.
+
+
+
+
+# MBOU Algoshosh
+
+## Project's description
+This project is aimed to master algorithms and data structures. The project is a React application that allows you to work with a number of typical algorytms. The full list includes:
+- [x] String sort
+- [x] Fibonacci numbers
+- [x] Array sort
+- [x] Stack
+- [x] Queue
+- [x] Linked list
+
+## Used technologies
+- React
+- TypeScript && JavaScript
+- Redux
+- HTML && CSS

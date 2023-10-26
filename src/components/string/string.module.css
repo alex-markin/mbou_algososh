@@ -1,0 +1,41 @@
+@keyframes circle {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;
+}
+
+.inbutBlock {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 567px;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.outputBlock {
+  composes: inbutBlock;
+  max-width: 1040px;
+  row-gap: calc(48px + 11px + 8px); /* for pseudo elements size and margin */
+  column-gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+
+}
+
+.circle {
+  animation: circle 0.5s ease-in-out forwards;
+}
+

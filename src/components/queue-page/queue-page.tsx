@@ -14,7 +14,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { Queue, TQueue } from "../../services/algrorithms/queue";
 
 export const QueuePage: React.FC = () => {
-  const circlesCount = 4; // maximum count of circles
+  const circlesCount = 7; // maximum count of circles
   const max = 4; // maximum value for input
 
   const queue = useRef<TQueue<string>>(new Queue(circlesCount));

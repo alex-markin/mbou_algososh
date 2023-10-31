@@ -1,6 +1,6 @@
 // libs
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // components & styles
 import styles from "./fibonacci-page.module.css";
@@ -66,7 +66,7 @@ export const FibonacciPage: React.FC = () => {
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <section className={styles.section}>
-        <form className={`${styles.inbutBlock}`}>
+        <form id={'fib'} className={`${styles.inbutBlock}`}>
           <Input
             type="number"
             placeholder="Введите число"

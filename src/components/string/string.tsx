@@ -16,6 +16,7 @@ import { DELAY_IN_MS } from "../../constants/delays";
 
 // import { renderItemsWithDelay } from "../../utils/render-items-with-delay";
 import { stringSort } from "../../services/algrorithms/string-sort";
+import { time } from "console";
 
 
 export const StringComponent: React.FC = () => {
@@ -44,7 +45,7 @@ export const StringComponent: React.FC = () => {
       let currentIndex = 0;
       setStartStepIndex(0);
       setEndStepIndex(steps[0].length - 1);
-      
+
       while (currentIndex < steps.length) {
         const step = steps[currentIndex];
         const iterations = Math.ceil((step.length - 1) / 2);
@@ -91,7 +92,7 @@ export const StringComponent: React.FC = () => {
   return (
     <SolutionLayout title="Строка">
       <section className={styles.section}>
-        <form className={`${styles.inbutBlock}`}>
+        <form id={'string'} className={`${styles.inbutBlock}`}>
           <Input
             type="text"
             placeholder="Введите число"

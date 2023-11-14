@@ -42,28 +42,15 @@ export const QueuePage: React.FC = () => {
   const enqueue = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue) return;
-    if (tailIndex === circlesCount - 1) {
-      setInputValue("Превышен лимит очереди")
-      return;
-    };
 
     setIsLoading(true);
     try {
       queue.current.enqueue(inputValue);
-      const items = queue.current.getItems();
-      const nextEmptyIndex = filledCircles.findIndex((item) => item === undefined || item === '');
-      if (nextEmptyIndex !== -1) {
-        filledCircles[nextEmptyIndex] = inputValue;
-        setActiveIndex(nextEmptyIndex);
-        setTimeout(() => {
-          setTailIndex(nextEmptyIndex);
-          setFilledCircles([...items as string[]]);
-          setActiveIndex(null);
-        }, SHORT_DELAY_IN_MS)
-        setInputValue("");
-      }
+      const items = queue.current.getItems().map(item => item ?? ''); // Convert nulls to empty strings
+      setFilledCircles(items as string[]);
+      setInputValue("");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setTimeout(() => setIsLoading(false), SHORT_DELAY_IN_MS);
     }
@@ -106,17 +93,20 @@ export const QueuePage: React.FC = () => {
             type="submit"
             onClick={enqueue}
             isLoader={isLoading}
+            disabled={!inputValue}
           />
           <Button
             text="Удалить"
             type="button"
             onClick={dequeue}
+            disabled={filledCircles.every((item) => item === '' || item === undefined)}
           />
           <Button
             text="Очистить"
             type="reset"
             extraClass={styles.resetButton}
             onClick={reset}
+            disabled={filledCircles.every((item) => item === '' || item === undefined)}
 
           />
         </form>

@@ -51,7 +51,12 @@ export class Queue<T> implements TQueue<T> {
   };
 
   getItems = (): (T | null)[] => {
-    return this.container;
+    let items = Array(this.size).fill(null);
+    for (let i = 0; i < this.length; i++) {
+      let index = (this.head + i) % this.size;
+      items[index] = this.container[index];
+    }
+    return items;
   };
 
   getSize = (): number => {
@@ -65,6 +70,7 @@ export class Queue<T> implements TQueue<T> {
     this.length = 0;
     this.head = 0;
     this.tail = 0;
+    this.container = Array(this.size).fill(null);
   };
 
   getLength = (): number => {

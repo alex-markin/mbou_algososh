@@ -1,0 +1,61 @@
+@keyframes circle {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+}
+
+.inbutBlock {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 980px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+}
+
+.radioBlock {
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.sortSelectionBlock {
+  composes: radioBlock;
+  gap: 12px;
+  margin-left: 52px;
+  margin-right: 80px;
+}
+
+.sortingButton {
+  width: 100%;
+  width: 205px;
+}
+
+.outputBlock {
+  composes: inbutBlock;
+  max-width: 980px;
+  min-height: 340px;
+  align-items: end;
+  column-gap: 10px;
+  justify-content: center;
+}
+
+.circle {
+  animation: circle 0.5s ease-in-out forwards;
+}
+

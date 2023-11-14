@@ -1,5 +1,4 @@
 // libs
-
 import React from "react";
 
 // components & styles
@@ -8,7 +7,7 @@ import { ElementStates } from "../../types/element-states";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Circle } from "../ui/circle/circle";
 
 // utils & constants
@@ -16,7 +15,6 @@ import { DELAY_IN_MS } from "../../constants/delays";
 
 // import { renderItemsWithDelay } from "../../utils/render-items-with-delay";
 import { stringSort } from "../../services/algrorithms/string-sort";
-import { time } from "console";
 
 
 export const StringComponent: React.FC = () => {
@@ -69,6 +67,8 @@ export const StringComponent: React.FC = () => {
       console.log(error);
     } finally {
       setIsLoading(false);
+      setInputValue('');
+
     }
   };
 
@@ -95,6 +95,7 @@ export const StringComponent: React.FC = () => {
         <form id={'string'} className={`${styles.inbutBlock}`}>
           <Input
             type="text"
+            value={inputValue}
             placeholder="Введите число"
             maxLength={maxLength}
             isLimitText={true}
@@ -104,7 +105,8 @@ export const StringComponent: React.FC = () => {
             text="Развернуть"
             type="submit"
             onClick={handleClick}
-            isLoader={isLoading} />
+            isLoader={isLoading}
+            disabled={!inputValue} />
         </form>
 
         <div className={`${styles.outputBlock}`}>

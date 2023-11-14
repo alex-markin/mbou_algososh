@@ -78,7 +78,8 @@ export const FibonacciPage: React.FC = () => {
             text="Рассчитать"
             type="submit"
             onClick={handleClick}
-            isLoader={isLoading} />
+            isLoader={isLoading}
+            disabled={!inputValue} />
         </form>
 
         <div className={`${styles.outputBlock}`}>

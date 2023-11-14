@@ -65,17 +65,6 @@ export const StackPage: React.FC = () => {
     setActiveIndex(0);
   }
 
-  const getColor = (index: number) => {
-    if (index === activeIndex) {
-      return ElementStates.Changing;
-    } else {
-      return ElementStates.Default;
-    }
-  }
-
-
-
-
 
 
   return (
@@ -96,12 +85,14 @@ export const StackPage: React.FC = () => {
             type="submit"
             onClick={push}
             isLoader={isLoading}
+            disabled={!inputValue}
           />
 
           <Button
             text="Удалить"
             type="button"
             onClick={pop}
+            disabled={renderedItems.length === 0}
           />
 
           <Button
@@ -109,6 +100,8 @@ export const StackPage: React.FC = () => {
             type="reset"
             extraClass={styles.resetButton}
             onClick={reset}
+            disabled={renderedItems.length === 0}
+
           />
         </form>
 

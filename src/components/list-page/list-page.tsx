@@ -8,12 +8,13 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
-import Arrow from "./arrow"
+import Arrow from "../ui/arrow/arrow"
 
 // utils & constants & types
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { LinkedList, TLinkedList, Node } from "../../services/algrorithms/linked-list";
 import { SubCircle } from "../../types/insterted-circle";
+import { isGlobalLoadingActive } from "../../utils/is-global-loading-active";
 
 export const ListPage: React.FC = () => {
 
@@ -53,8 +54,6 @@ export const ListPage: React.FC = () => {
     component: null,
   });
   const [subCircleIndexes, setSubCircleIndexes] = useState<number[]>([]); // index of subCircle element for insertAtIndex method
-
-
 
   useEffect(() => {
     setFilledCircles([]);
@@ -101,7 +100,6 @@ export const ListPage: React.FC = () => {
       }
 
       // starting actions
-
       const items = linkedList.current.getItems();
       setChangingIndex(method === "prepend" ? 0 : filledCircles.length - 1);
 
@@ -234,7 +232,7 @@ export const ListPage: React.FC = () => {
             setTailIndex(linkedList.current.getTailIndex());
             setModifiedIndex(indexValue);
 
-            // Сброс состояний
+            // reset states
             setChangingIndex(null);
             setSubCircle({ direction: "", component: null });
             setInputValue("");
@@ -278,7 +276,6 @@ export const ListPage: React.FC = () => {
             ),
           });
 
-          // Delete element after slight delay to show subCircle at the deletion point
           setTimeout(() => {
             const items = linkedList.current.getItems();
             setFilledCircles([...items as string[]]);
@@ -289,7 +286,7 @@ export const ListPage: React.FC = () => {
 
 
 
-            // Сброс состояний
+            // reset states
             setTimeout(() => {
               setInputValue("");
               setIndexValue(null);
@@ -345,10 +342,11 @@ export const ListPage: React.FC = () => {
 
 
 
+
   return (
     <SolutionLayout title="Связный список">
       <section className={styles.section}>
-        <form id={'queue'} className={`${styles.inbutBlock}`}>
+        <form id={'linkedList'} className={`${styles.inbutBlock}`}>
           <fieldset className={styles.fieldset}>
             <Input
               value={inputValue}
@@ -365,7 +363,7 @@ export const ListPage: React.FC = () => {
               linkedList="small"
               onClick={(e: React.FormEvent) => addElement(e, "prepend")}
               isLoader={isLoading.prepend}
-              disabled={tailIndex === maxLength - 1 || !inputValue ? true : false}
+              disabled={tailIndex === maxLength - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
             />
             <Button
               text="Добавить в tail"
@@ -373,15 +371,15 @@ export const ListPage: React.FC = () => {
               linkedList="small"
               onClick={(e: React.FormEvent) => addElement(e, "append")}
               isLoader={isLoading.append}
-              disabled={tailIndex === maxLength - 1 || !inputValue ? true : false}
+              disabled={tailIndex === maxLength - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
             />
             <Button
               text="Удалить из head"
               type="button"
               linkedList="small"
               isLoader={isLoading.deleteHead}
-              disabled={filledCircles.length === 0 ? true : false}
               onClick={(e) => deleteItem("deleteHead")}
+              disabled={filledCircles.length === 0 || isGlobalLoadingActive(isLoading)}
             />
             <Button
               text="Удалить из tail"
@@ -389,7 +387,7 @@ export const ListPage: React.FC = () => {
               linkedList="small"
               isLoader={isLoading.deleteTail}
               onClick={(e) => deleteItem("deleteTail")}
-              disabled={filledCircles.length === 0 ? true : false}
+              disabled={filledCircles.length === 0 || isGlobalLoadingActive(isLoading)}
 
             />
           </fieldset>
@@ -409,7 +407,7 @@ export const ListPage: React.FC = () => {
               linkedList="big"
               onClick={(e: React.FormEvent) => addByIndex(e)}
               isLoader={isLoading.insertIndex}
-              disabled={indexValue === null || !inputValue || indexValue > filledCircles.length - 1 ? true : false}
+              disabled={indexValue === null || !inputValue || indexValue > filledCircles.length - 1 || isGlobalLoadingActive(isLoading)}
 
             />
             <Button
@@ -417,8 +415,8 @@ export const ListPage: React.FC = () => {
               type="button"
               linkedList="big"
               isLoader={isLoading.removeIndex}
-              disabled={indexValue === null || filledCircles.length === 0 || indexValue > filledCircles.length - 1 ? true : false}
               onClick={(e: React.FormEvent) => deleteByIndex(e)}
+              disabled={indexValue === null || filledCircles.length === 0 || indexValue > filledCircles.length - 1 || isGlobalLoadingActive(isLoading)}
             />
 
           </fieldset>
@@ -437,6 +435,7 @@ export const ListPage: React.FC = () => {
                 <Arrow
                   index={index}
                   tailIndex={tailIndex ? tailIndex : 0}
+                  color={index === changingIndex || changingIndexes.includes(index) ? "purple" : "blue"}
                 />
 
               </div>

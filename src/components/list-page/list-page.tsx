@@ -302,8 +302,6 @@ export const ListPage: React.FC = () => {
       return subCircle.component;
     }
 
-
-
     if (isLastChangingIndex && subCircle.direction === "insertAtIndex") {
       return subCircle.component;
     }
@@ -345,9 +343,6 @@ export const ListPage: React.FC = () => {
       return ElementStates.Default;
     }
   }
-
-
-
 
 
   return (

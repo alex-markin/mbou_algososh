@@ -153,7 +153,9 @@ export const SortingPage: React.FC = () => {
     if (currentStep) {
       if (currentStep.sortedArray.includes(array[index])) {
         return ElementStates.Modified;
-      } else if (index === activeIndexA || index === activeIndexB) {
+      } 
+      
+      if (index === activeIndexA || index === activeIndexB) {
         return ElementStates.Changing;
       }
     }

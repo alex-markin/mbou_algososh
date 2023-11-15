@@ -14,10 +14,10 @@ import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS, DELAY_IN_MS } from "../../constants/delays";
 import { Direction } from "../../types/direction";
 import { RadioTypes } from "../../types/radio-types";
-import { selectionSorting } from "../../services/algrorithms/selection-sort";
-import { bubbleSorting } from "../../services/algrorithms/bubble-sort";
+import { selectionSorting, bubbleSorting } from "./utils";
 import { isGlobalLoadingActive } from "../../utils/is-global-loading-active"
 import { SortingStep } from "../../types/sorting-step";
+import { MIN_LENGTH, MAX_LENGTH, MAX_VALUE, MAX_HEIGHT } from "../../constants/sorting";
 
 export const SortingPage: React.FC = () => {
 
@@ -38,22 +38,15 @@ export const SortingPage: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<Record<string, boolean>>(defaultLoadingStates);
 
-  // basic values
-  const minLength: number = 3;
-  const maxLength: number = 17;
-  const maxValue: number = 100;
-  const maxHeigth: number = 340;
-
-
   const randomArray = () => {
     const array = [];
     setActiveIndexA(null);
     setActiveIndexB(null);
     setCurrentStepIndex(0);
     setSortingSteps(null);
-    const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+    const length = Math.floor(Math.random() * (MAX_LENGTH - MIN_LENGTH + 1)) + MIN_LENGTH;
     for (let i = 0; i < length; i++) {
-      array.push(Math.floor(Math.random() * maxValue));
+      array.push(Math.floor(Math.random() * MAX_VALUE));
     }
     return array;
   }
@@ -75,7 +68,8 @@ export const SortingPage: React.FC = () => {
     setSortingDirection(Direction.Descending);
   }
 
-  // select sort
+  // SELECT SORT
+
   const selectSort = async (): Promise<void> => {
     setIsLoading({ ...defaultLoadingStates, [sortingDirection as string]: true });
     if (sortingDirection === null) return;
@@ -109,7 +103,8 @@ export const SortingPage: React.FC = () => {
       await animateIndexB(step.indexA + 1, step.indexB, async () => {
         setArray([...step.currentArray]);
         setSortingSteps(steps);
-        setCurrentStepIndex(index); // Обновляем currentStepIndex после завершения анимации indexB
+        setCurrentStepIndex(index);
+
         animateSortingStep(index + 1);
         await new Promise<void>((resolve) => setTimeout(resolve, DELAY_IN_MS));
       });
@@ -118,7 +113,7 @@ export const SortingPage: React.FC = () => {
     animateSortingStep(0);
   };
 
-  // bubble sort
+  // BUBBLE SORT
   const bubbleSort = async (): Promise<void> => {
     setIsLoading({ ...defaultLoadingStates, [sortingDirection as string]: true });
     if (sortingDirection === null) return;
@@ -256,7 +251,7 @@ export const SortingPage: React.FC = () => {
               <ArrayItem
                 key={index}
                 color={columnColor(index)}
-                height={(item * maxHeigth) / 100}
+                height={Math.floor((item * MAX_HEIGHT) / 100)}
               />
             )
           })}

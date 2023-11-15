@@ -12,7 +12,7 @@ import { ElementStates } from "../../types/element-states";
 
 // utils & constants
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { Stack, TStack } from "../../services/algrorithms/stack";
+import { Stack, TStack } from "./stack";
 
 export const StackPage: React.FC = () => {
 
@@ -92,7 +92,7 @@ export const StackPage: React.FC = () => {
             text="Удалить"
             type="button"
             onClick={pop}
-            disabled={renderedItems.length === 0}
+            disabled={renderedItems.length === 0 || isLoading}
           />
 
           <Button
@@ -100,7 +100,7 @@ export const StackPage: React.FC = () => {
             type="reset"
             extraClass={styles.resetButton}
             onClick={reset}
-            disabled={renderedItems.length === 0}
+            disabled={renderedItems.length === 0 || isLoading}
 
           />
         </form>

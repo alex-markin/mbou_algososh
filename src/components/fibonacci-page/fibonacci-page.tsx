@@ -10,8 +10,9 @@ import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 
 // utils & constants
-import { fibonacci } from "../../services/algrorithms/fibonacci";
+import { getFibonacciNumbers } from "./utils";
 import { DELAY_IN_MS } from "../../constants/delays";
+import { MAX_INPUT_VALUE } from "../../constants/fibonacci";
 
 
 export const FibonacciPage: React.FC = () => {
@@ -20,11 +21,9 @@ export const FibonacciPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [renderedItems, setRenderedItems] = useState<number[]>([]); // Added a new state to track rendered items
 
-  const max = 19; // maximum value for input
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (value <= max) {
+    if (value <= MAX_INPUT_VALUE) {
       setInputValue(value);
     } else {
       setInputValue("");
@@ -37,7 +36,7 @@ export const FibonacciPage: React.FC = () => {
     renderedItems.length && setRenderedItems([]);
     try {
       setIsLoading(true);
-      const result = fibonacci(inputValue as number);
+      const result = getFibonacciNumbers(inputValue as number);
       renderItemsWithDelay(result);
       setRenderedItems([]);
 
@@ -51,14 +50,16 @@ export const FibonacciPage: React.FC = () => {
     let renderedItems: number[] = [];
 
     items.forEach((item, index) => {
-      setTimeout(() => {
-        renderedItems = [...renderedItems, item];
-        setRenderedItems(renderedItems);
+      if (index > 0) {
+        setTimeout(() => {
+          renderedItems = [...renderedItems, item];
+          setRenderedItems(renderedItems);
 
-        if (index === items.length - 1) {
-          setIsLoading(false);
-        }
-      }, (index + 1) * DELAY_IN_MS);
+          if (index === items.length - 1) {
+            setIsLoading(false);
+          }
+        }, (index) * DELAY_IN_MS);
+      }
     });
   };
 
@@ -70,7 +71,7 @@ export const FibonacciPage: React.FC = () => {
           <Input
             type="number"
             placeholder="Введите число"
-            max={max}
+            max={MAX_INPUT_VALUE}
             isLimitText={true}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
           />

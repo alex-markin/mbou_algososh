@@ -12,9 +12,8 @@ import { Circle } from "../ui/circle/circle";
 
 // utils & constants
 import { DELAY_IN_MS } from "../../constants/delays";
-
-// import { renderItemsWithDelay } from "../../utils/render-items-with-delay";
-import { stringSort } from "../../services/algrorithms/string-sort";
+import { stringSort } from "./utils";
+import { MAX_LENGTH } from "../../constants/string";
 
 
 export const StringComponent: React.FC = () => {
@@ -30,8 +29,6 @@ export const StringComponent: React.FC = () => {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }
-
-  const maxLength = 11; // maximum value for input
 
   const handleClick = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +94,7 @@ export const StringComponent: React.FC = () => {
             type="text"
             value={inputValue}
             placeholder="Введите число"
-            maxLength={maxLength}
+            maxLength={MAX_LENGTH}
             isLimitText={true}
             onChange={handleInput}
           />

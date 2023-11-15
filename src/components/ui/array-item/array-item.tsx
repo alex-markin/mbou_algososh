@@ -23,6 +23,9 @@ export const ArrayItem = ({ color, height }: ArrayItemProps) => {
 
 
   return (
+    <div className={styles.arrayItemWrapper}>
     <div className={`${styles.arrayItem}`} style={additionalStyle} />
+      <span className={styles.itemHeight}>{height}</span>
+    </div>
   );
 }

@@ -11,59 +11,78 @@ import { ElementStates } from "../../types/element-states";
 
 // utils & constants
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { Queue, TQueue } from "../../services/algrorithms/queue";
+import { Queue, TQueue } from "./queue";
+import { CIRCLES_COUNT, MAX_INPUT_VALUE } from "../../constants/queue";
 
 export const QueuePage: React.FC = () => {
-  const circlesCount = 7; // maximum count of circles
-  const max = 4; // maximum value for input
 
-  const queue = useRef<TQueue<string>>(new Queue(circlesCount));
+  const queue = useRef<TQueue<string>>(new Queue(CIRCLES_COUNT));
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [filledCircles, setFilledCircles] = useState<string[]>(new Array(circlesCount).fill(''));
-  const [tailIndex, setTailIndex] = useState<number>(0); // index of tail element
+  const [filledCircles, setFilledCircles] = useState<string[]>(new Array(CIRCLES_COUNT).fill(''));
+  const [tailIndex, setTailIndex] = useState<number | null>(0); // index of tail element
   const [headIndex, setHeadIndex] = useState<number | null>(null); // index of head element
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // index of active element
 
   useEffect(() => {
-    const initialFilledCircles = new Array(circlesCount).fill('');
+    const initialFilledCircles = new Array(CIRCLES_COUNT).fill('');
     setFilledCircles(initialFilledCircles);
   }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value.length <= max) {
+    if (value.length <= MAX_INPUT_VALUE) {
       setInputValue(value);
     } else {
       setInputValue("");
     }
   };
 
-  const enqueue = (e: React.FormEvent) => {
+  const enqueue = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue) return;
 
     setIsLoading(true);
     try {
       queue.current.enqueue(inputValue);
-      const items = queue.current.getItems().map(item => item ?? ''); // Convert nulls to empty strings
+      if (queue.current.getLength() === 1) {
+        setHeadIndex(0);
+        setTailIndex(0);
+      } else {
+        setTailIndex(queue.current.getTail());
+      }
+      const activeIndex = queue.current.getTail();
+      setActiveIndex(activeIndex);
+
+      await new Promise<void>((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
+
+      const items = queue.current.getItems().map(item => item ?? '');
       setFilledCircles(items as string[]);
+
+
       setInputValue("");
     } catch (error) {
       console.error(error);
     } finally {
       setTimeout(() => setIsLoading(false), SHORT_DELAY_IN_MS);
+      setActiveIndex(null);
     }
   };
 
   const dequeue = () => {
     queue.current.dequeue();
     const items = queue.current.getItems();
-    setActiveIndex(headIndex ? headIndex : 0);
+    setActiveIndex(headIndex ?? 0);
     setTimeout(() => {
       setFilledCircles([...items as string[]]);
       setTimeout(() => setActiveIndex(null), SHORT_DELAY_IN_MS);
-      setHeadIndex(headIndex ? headIndex + 1 : 1);
+      // Adjust headIndex and check if queue is empty
+      if (queue.current.isEmpty()) {
+        setHeadIndex(null);
+        setTailIndex(null);
+      } else {
+        setHeadIndex((headIndex ?? 0) + 1);
+      }
       setActiveIndex(null);
     }, SHORT_DELAY_IN_MS);
   }
@@ -73,8 +92,12 @@ export const QueuePage: React.FC = () => {
     setHeadIndex(null);
     setTailIndex(0);
     queue.current.reset();
-    setFilledCircles(new Array(circlesCount).fill(''));
+    setFilledCircles(new Array(CIRCLES_COUNT).fill(''));
   }
+
+  useEffect(() => {
+    console.log(activeIndex, headIndex, tailIndex);
+  }, [activeIndex, headIndex, tailIndex])
 
   return (
     <SolutionLayout title="Очередь">
@@ -84,7 +107,7 @@ export const QueuePage: React.FC = () => {
             value={inputValue}
             type="text"
             placeholder="Введите значение"
-            maxLength={max}
+            maxLength={MAX_INPUT_VALUE}
             isLimitText={true}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
           />
@@ -99,14 +122,14 @@ export const QueuePage: React.FC = () => {
             text="Удалить"
             type="button"
             onClick={dequeue}
-            disabled={filledCircles.every((item) => item === '' || item === undefined)}
+            disabled={filledCircles.every((item) => item === '' || item === undefined || isLoading)}
           />
           <Button
             text="Очистить"
             type="reset"
             extraClass={styles.resetButton}
             onClick={reset}
-            disabled={filledCircles.every((item) => item === '' || item === undefined)}
+            disabled={filledCircles.every((item) => item === '' || item === undefined || isLoading)}
 
           />
         </form>
@@ -119,8 +142,8 @@ export const QueuePage: React.FC = () => {
                 letter={item}
                 index={index}
                 extraClass={styles.circle}
-                tail={index === tailIndex && item ? "tail" : undefined}
-                head={index === headIndex && item ? "head" : undefined}
+                tail={index === tailIndex && item !== '' ? "tail" : undefined}
+                head={index === headIndex && item !== '' ? "head" : undefined}
               />
             );
           })}

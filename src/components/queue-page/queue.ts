@@ -5,6 +5,8 @@ export type TQueue<T> = {
   getItems: () => (T | null)[];
   isEmpty: () => boolean;
   getSize: () => number;
+  getHead: () => number;
+  getTail: () => number;
   reset: () => void;
   getLength: () => number;
 };
@@ -29,6 +31,11 @@ export class Queue<T> implements TQueue<T> {
     this.container[this.tail] = item;
     this.tail = (this.tail + 1) % this.size;
     this.length++;
+  };
+
+  getTail = (): number => {
+    // Adjust to return the index of the last item
+    return this.length === 0 ? 0 : (this.tail - 1 + this.size) % this.size;
   };
 
   dequeue = () => {
@@ -61,6 +68,10 @@ export class Queue<T> implements TQueue<T> {
 
   getSize = (): number => {
     return this.size;
+  };
+
+  getHead = (): number => {
+    return this.head;
   };
 
   isEmpty = () => this.length === 0;

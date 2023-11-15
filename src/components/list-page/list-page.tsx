@@ -12,20 +12,16 @@ import Arrow from "../ui/arrow/arrow"
 
 // utils & constants & types
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
-import { LinkedList, TLinkedList, Node } from "../../services/algrorithms/linked-list";
+import { LinkedList, TLinkedList, Node } from "./linked-list";
 import { SubCircle } from "../../types/insterted-circle";
 import { isGlobalLoadingActive } from "../../utils/is-global-loading-active";
+import { MAX_LENGTH, INPUT_LENGTH, MAX_INDEX, INITIAL_VALUES } from "../../constants/list";
 
 export const ListPage: React.FC = () => {
 
 
   // states & refs
-  const maxLength = 7; // maximum length of the list
-  const inputLength = 4; // maximum value for inputValue
-  const maxIndex = maxLength - 1; // maximum value for indexValue
-  const initialValues = ["0", "34", "85", "65"]; // initial values for the list
-
-  const linkedList = useRef<TLinkedList<string>>(new LinkedList(maxLength));
+  const linkedList = useRef<TLinkedList<string>>(new LinkedList(MAX_LENGTH));
   const [inputValue, setInputValue] = useState('');
   const [indexValue, setIndexValue] = useState<number | null>(null); // index of element to add or remove
 
@@ -58,7 +54,7 @@ export const ListPage: React.FC = () => {
   useEffect(() => {
     setFilledCircles([]);
     linkedList.current.clean();
-    initialValues.forEach((item) => {
+    INITIAL_VALUES.forEach((item) => {
       linkedList.current.append(item);
     })
     setFilledCircles(linkedList.current.getItems() as string[]);
@@ -76,7 +72,7 @@ export const ListPage: React.FC = () => {
       setIndexValue(null);
     } else {
       const numericValue = Number(value);
-      if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= maxIndex) {
+      if (!isNaN(numericValue) && numericValue >= 0 && numericValue <= MAX_INDEX) {
         setIndexValue(numericValue);
       }
     }
@@ -85,7 +81,7 @@ export const ListPage: React.FC = () => {
   const addElement = (e: React.FormEvent, method: string) => {
     e.preventDefault();
     if (!inputValue) return;
-    if (tailIndex === maxLength - 1) {
+    if (tailIndex === MAX_LENGTH - 1) {
       setInputValue("Превышен лимит очереди")
       return;
     };
@@ -193,7 +189,7 @@ export const ListPage: React.FC = () => {
   const addByIndex = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue || indexValue === null) return;
-    if (tailIndex === maxLength - 1) {
+    if (tailIndex === MAX_LENGTH - 1) {
       setInputValue("Превышен лимит очереди");
       return;
     };
@@ -302,26 +298,37 @@ export const ListPage: React.FC = () => {
   const setHeadState = (index: number) => {
     const isLastChangingIndex = index === subCircleIndexes[subCircleIndexes.length - 1];
 
-    if (index === headIndex && subCircle.direction === "prepend") {
+    if (index === headIndex && subCircle.direction === "prepend" || index === tailIndex && subCircle.direction === "append") {
       return subCircle.component;
-    } else if (index === headIndex && subCircle.direction === "deleteHead") {
-      return subCircle.component
-    } else if (isLastChangingIndex && subCircle.direction === "insertAtIndex") {
+    }
+
+
+
+    if (isLastChangingIndex && subCircle.direction === "insertAtIndex") {
       return subCircle.component;
-    } else if (index === headIndex) {
+    }
+
+    if (index === headIndex) {
       return 'head';
     }
   }
 
 
   const setTailState = (index: number) => {
-    if (index === tailIndex && subCircle.direction === "append") {
-      return subCircle.component;
-    } else if (index === tailIndex && subCircle.direction === "deleteTail") {
+
+    if (index === headIndex && subCircle.direction === "deleteHead") {
       return subCircle.component
-    } else if (index === changingIndex && subCircle.direction === "deleteAtIndex") {
+    }
+
+    if (index === tailIndex && subCircle.direction === "deleteTail") {
+      return subCircle.component
+    }
+
+    if (index === changingIndex && subCircle.direction === "deleteAtIndex") {
       return subCircle.component;
-    } else if (index === tailIndex) {
+    }
+
+    if (index === tailIndex) {
       return 'tail';
     }
   }
@@ -352,7 +359,7 @@ export const ListPage: React.FC = () => {
               value={inputValue}
               type="text"
               placeholder="Введите значение"
-              maxLength={inputLength}
+              maxLength={INPUT_LENGTH}
               isLimitText={true}
               extraClass={styles.listInput}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
@@ -363,7 +370,7 @@ export const ListPage: React.FC = () => {
               linkedList="small"
               onClick={(e: React.FormEvent) => addElement(e, "prepend")}
               isLoader={isLoading.prepend}
-              disabled={tailIndex === maxLength - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
+              disabled={tailIndex === MAX_LENGTH - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
             />
             <Button
               text="Добавить в tail"
@@ -371,7 +378,7 @@ export const ListPage: React.FC = () => {
               linkedList="small"
               onClick={(e: React.FormEvent) => addElement(e, "append")}
               isLoader={isLoading.append}
-              disabled={tailIndex === maxLength - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
+              disabled={tailIndex === MAX_LENGTH - 1 || !inputValue || isGlobalLoadingActive(isLoading)}
             />
             <Button
               text="Удалить из head"
@@ -395,7 +402,7 @@ export const ListPage: React.FC = () => {
           <fieldset className={styles.fieldset}>
             <Input
               type="number"
-              max={maxIndex}
+              max={MAX_INDEX}
               value={indexValue !== null ? indexValue : ''}
               placeholder="Введите индекс"
               extraClass={styles.listInput}

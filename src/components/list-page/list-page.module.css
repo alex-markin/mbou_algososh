@@ -1,0 +1,55 @@
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+}
+
+.inbutBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 952px;
+  gap: 12px;
+}
+
+.fieldset {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  border: none;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+
+.listInput {
+  width: 100%;
+  max-width: 204px;
+}
+
+
+.outputBlock {
+  composes: inbutBlock;
+  flex-direction: row;
+  max-width: 952px;
+  min-height: 170px;
+  column-gap: 16px;
+  row-gap: 56px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.circleBlock {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+
+

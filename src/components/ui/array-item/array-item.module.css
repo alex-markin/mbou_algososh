@@ -1,0 +1,22 @@
+
+.arrayItemWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.arrayItem {
+  width: 50px;  
+  transition: height 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.itemHeight {
+font-family: "Segoe UI";
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 22px; /* 122.222% */
+text-transform: uppercase;
+
+}

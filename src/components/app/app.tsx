@@ -7,6 +7,7 @@ import { QueuePage } from "../queue-page/queue-page";
 import { StringComponent } from "../string/string";
 import { SortingPage } from "../sorting-page/sorting-page";
 import { StackPage } from "../stack-page/stack-page";
+import { ROUTES } from "../../constants/routes";
 
 import "./app.css";
 
@@ -15,25 +16,25 @@ function App() {
     <div className="app">
       <HashRouter>
         <Switch>
-          <Route path="/" exact>
+          <Route path={ROUTES.HOME} exact>
             <MainPage />
           </Route>
-          <Route path="/recursion">
+          <Route path={ROUTES.STRING}>
             <StringComponent />
           </Route>
-          <Route path="/fibonacci">
+          <Route path={ROUTES.FIBONACCI}>
             <FibonacciPage />
           </Route>
-          <Route path="/sorting">
+          <Route path={ROUTES.SORTING}>
             <SortingPage />
           </Route>
-          <Route path="/stack">
+          <Route path={ROUTES.STACK}>
             <StackPage />
           </Route>
-          <Route path="/queue">
+          <Route path={ROUTES.QUEUE}>
             <QueuePage />
           </Route>
-          <Route path="/list">
+          <Route path={ROUTES.LINKED_LIST}>
             <ListPage />
           </Route>
         </Switch>

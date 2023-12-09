@@ -57,7 +57,7 @@ export const QueuePage: React.FC = () => {
       await new Promise<void>((resolve) => setTimeout(resolve, SHORT_DELAY_IN_MS));
 
       const items = queue.current.getItems().map(item => item ?? '');
-      setFilledCircles(items as string[]);
+      setFilledCircles([...items]);
 
 
       setInputValue("");
@@ -94,10 +94,6 @@ export const QueuePage: React.FC = () => {
     queue.current.reset();
     setFilledCircles(new Array(CIRCLES_COUNT).fill(''));
   }
-
-  useEffect(() => {
-    console.log(activeIndex, headIndex, tailIndex);
-  }, [activeIndex, headIndex, tailIndex])
 
   return (
     <SolutionLayout title="Очередь">

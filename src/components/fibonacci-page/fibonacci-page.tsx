@@ -50,7 +50,6 @@ export const FibonacciPage: React.FC = () => {
     let renderedItems: number[] = [];
 
     items.forEach((item, index) => {
-      if (index > 0) {
         setTimeout(() => {
           renderedItems = [...renderedItems, item];
           setRenderedItems(renderedItems);
@@ -59,7 +58,6 @@ export const FibonacciPage: React.FC = () => {
             setIsLoading(false);
           }
         }, (index) * DELAY_IN_MS);
-      }
     });
   };
 

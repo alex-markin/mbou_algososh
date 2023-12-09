@@ -27,7 +27,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "cypressOpen": "./node_modules/.bin/cypress open"
+    "cypress:open": "./node_modules/.bin/cypress open"
   },
   "eslintConfig": {
     "plugins": [

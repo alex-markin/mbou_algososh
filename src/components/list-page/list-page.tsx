@@ -349,7 +349,7 @@ export const ListPage: React.FC = () => {
     <SolutionLayout title="Связный список">
       <section className={styles.section}>
         <form id={'linkedList'} className={`${styles.inbutBlock}`}>
-          <fieldset className={styles.fieldset}>
+          <fieldset id={"valueInputFieldset"} className={styles.fieldset}>
             <Input
               value={inputValue}
               type="text"
@@ -394,7 +394,7 @@ export const ListPage: React.FC = () => {
             />
           </fieldset>
 
-          <fieldset className={styles.fieldset}>
+          <fieldset id={"indexInputFieldset"} className={styles.fieldset}>
             <Input
               type="number"
               max={MAX_INDEX}

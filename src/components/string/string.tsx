@@ -1,5 +1,5 @@
 // libs
-import React from "react";
+import React, { useEffect } from "react";
 
 // components & styles
 import styles from "./string.module.css";
@@ -12,7 +12,7 @@ import { Circle } from "../ui/circle/circle";
 
 // utils & constants
 import { DELAY_IN_MS } from "../../constants/delays";
-import { stringSort } from "./utils";
+import { stringSort, getColorClass } from "./utils";
 import { MAX_LENGTH } from "../../constants/string";
 
 
@@ -70,22 +70,6 @@ export const StringComponent: React.FC = () => {
   };
 
 
-  const getColorClass = (index: number) => {
-
-    if (index < startStepIndex || index > endStepIndex || (startStepIndex === endStepIndex && index === startStepIndex)) {
-      return ElementStates.Modified;
-    }
-
-    if (index === startStepIndex || index === endStepIndex) {
-      return ElementStates.Changing;
-    }
-
-    if (index > startStepIndex && index < endStepIndex) {
-      return ElementStates.Default;
-    }
-
-  }
-
   return (
     <SolutionLayout title="Строка">
       <section className={styles.section}>
@@ -110,7 +94,7 @@ export const StringComponent: React.FC = () => {
           {currentItem && currentItem.map((item, index) => {
             return (
               <Circle
-                state={getColorClass(index)}
+                state={getColorClass(index, startStepIndex, endStepIndex)}
                 key={index}
                 letter={item}
                 index={index}

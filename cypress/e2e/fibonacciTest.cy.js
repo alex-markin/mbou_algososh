@@ -1,12 +1,14 @@
 
 import { getFibonacciNumbers } from '../../src/components/fibonacci-page/utils';
 import { MAX_INPUT_VALUE } from "../../src/constants/fibonacci";
-import { ROUTES } from "../../src/constants/routes";
+import { ROUTES, testURL } from "../../src/constants/routes";
+import { CIRCLES } from "../../src/constants/cypress-selectors";
+
 
 
 describe('FibonacciPage functions properly', () => {
   beforeEach(() => {
-    cy.visit(`http://localhost:3000/#${ROUTES.FIBONACCI}`);
+    cy.visit(`${testURL}${ROUTES.FIBONACCI}`);
   });
 
   it('should disable the button when input is empty', () => {
@@ -19,9 +21,9 @@ describe('FibonacciPage functions properly', () => {
     const expectedRes = getFibonacciNumbers(inputValue)
 
     cy.get('form#fib input[type="number"]').type(inputValue);
-    cy.get('form#fib button').click();
+    cy.contains('button', "Рассчитать").click();
 
-    cy.get('[class*="fibonacci-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     expectedRes.forEach((item, index) => {
       // Check for rendering correctness

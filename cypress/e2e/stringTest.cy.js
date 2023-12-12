@@ -2,6 +2,7 @@ import { stringSort, getColorClass } from "../../src/components/string/utils";
 import { generateRandomString } from "../../src/utils/generate-random-string";
 import { MAX_LENGTH } from "../../src/constants/string";
 import { ROUTES } from "../../src/constants/routes";
+import { CIRCLES } from "../../src/constants/cypress-selectors";
 
 describe('stringPage functions properly', () => {
   beforeEach(() => {
@@ -20,8 +21,8 @@ describe('stringPage functions properly', () => {
     cy.get('form#string input[type="text"]').type(inputValue);
     cy.get('form#string button').click();
 
-    expectedRes.forEach((step, stepIndex) => {
-      cy.get('[class*="string_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+      expectedRes.forEach((step, stepIndex) => {
+      cy.get(CIRCLES).as('circles');
 
       step.forEach((_, circleIndex) => {
         // Check for text correctness

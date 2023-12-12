@@ -31,7 +31,8 @@ export const FibonacciPage: React.FC = () => {
   };
 
 
-  const handleClick = () => {
+  const handleClick = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!inputValue) return;
     renderedItems.length && setRenderedItems([]);
     try {
@@ -50,14 +51,14 @@ export const FibonacciPage: React.FC = () => {
     let renderedItems: number[] = [];
 
     items.forEach((item, index) => {
-        setTimeout(() => {
-          renderedItems = [...renderedItems, item];
-          setRenderedItems(renderedItems);
+      setTimeout(() => {
+        renderedItems = [...renderedItems, item];
+        setRenderedItems(renderedItems);
 
-          if (index === items.length - 1) {
-            setIsLoading(false);
-          }
-        }, (index) * DELAY_IN_MS);
+        if (index === items.length - 1) {
+          setIsLoading(false);
+        }
+      }, (index) * DELAY_IN_MS);
     });
   };
 

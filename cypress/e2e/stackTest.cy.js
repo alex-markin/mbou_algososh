@@ -4,6 +4,7 @@ import { MAX_INPUT_LENGTH } from "../../src/constants/stack";
 import { DELAY_IN_MS } from "../../src/constants/delays";
 import { ElementStates } from "../../src/types/element-states"
 import { ROUTES } from "../../src/constants/routes";
+import { CIRCLES } from "../../src/constants/cypress-selectors";
 
 describe('stringPage functions properly', () => {
 
@@ -27,7 +28,7 @@ describe('stringPage functions properly', () => {
     cy.get('form#stack input[type="text"]').type(inputValue);
     cy.get('form#stack button[type="submit').click();
 
-    cy.get('[class*="stack-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     expectedRes.forEach((item, index) => {
       // Check for value correctness
@@ -51,7 +52,7 @@ describe('stringPage functions properly', () => {
 
     addElements(stack, ELEMENTS_TO_ADD, DELAY_IN_MS);
 
-    cy.get('[class*="stack-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
     cy.contains('button', 'Удалить').click();
     stack.pop();
     const expectedResAfterPop = stack.getItems();
@@ -63,7 +64,7 @@ describe('stringPage functions properly', () => {
 
       // Check for correct circle color for Changing 
       cy.get('@circles').eq(expectedResAfterPop.length - 1)
-        . invoke('attr', 'class')
+        .invoke('attr', 'class')
         .should('include', ElementStates.Changing);
 
       // Check for correct circle color for Default
@@ -71,7 +72,7 @@ describe('stringPage functions properly', () => {
         .invoke('attr', 'class')
         .should('include', ElementStates.Default);
 
-      
+
     });
   });
 
@@ -82,7 +83,7 @@ describe('stringPage functions properly', () => {
     cy.contains('button', 'Очистить').click();
     stack.reset();
 
-    cy.get('[class*="stack-page_outputBlock"]').get('[class*="circle_circle"]').should('not.exist');
+    cy.get(CIRCLES).should('not.exist');
 
   });
 });

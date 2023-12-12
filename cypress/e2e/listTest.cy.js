@@ -4,7 +4,8 @@ import { ElementStates } from "../../src/types/element-states"
 import { generateRandomString } from '../../src/utils/generate-random-string';
 import { generateRandomNumber } from '../../src/utils/generate-random-number';
 import { LinkedList } from '../../src/components/list-page/linked-list';
-import { ROUTES } from "../../src/constants/routes";
+import { ROUTES, testURL } from "../../src/constants/routes";
+import { CIRCLES } from "../../src/constants/cypress-selectors";
 
 
 describe('listPage functions properly', () => {
@@ -12,7 +13,7 @@ describe('listPage functions properly', () => {
   const linkedList = new LinkedList();
 
   beforeEach(() => {
-    cy.visit(`http://localhost:3000/#${ROUTES.LINKED_LIST}`);
+    cy.visit(`${testURL}${ROUTES.LINKED_LIST}`);
   });
 
 
@@ -30,7 +31,7 @@ describe('listPage functions properly', () => {
 
 
   it('should render initial list correctly', () => {
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // add initial values to linked list
     resetList(linkedList, INITIAL_VALUES);
@@ -51,7 +52,7 @@ describe('listPage functions properly', () => {
     cy.contains('button', 'Добавить в head').click();
     linkedList.prepend(inputValue);
 
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // check for animation correctness
     cy.get('@circles').eq(0).as('firstCircle');
@@ -83,7 +84,7 @@ describe('listPage functions properly', () => {
     linkedList.append(inputValue);
     const expectedRes = linkedList.getItems();
 
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // check for animation correctness
     cy.get('@circles').last().as('lastCircle')
@@ -112,7 +113,7 @@ describe('listPage functions properly', () => {
     const expectedRes = linkedList.getItems();
 
 
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // check for animation correctness
     cy.get('@circles').get('[class*="circle_small"]').as('firstCircle');
@@ -138,7 +139,7 @@ describe('listPage functions properly', () => {
     const expectedRes = linkedList.getItems();
 
 
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // check for animation correctness
     cy.get('@circles').get('[class*="circle_small"]').as('firstCircle');
@@ -209,7 +210,7 @@ describe('listPage functions properly', () => {
     const expectedRes = linkedList.getItems();
 
     // check for animation correctness
-    cy.get('[class*="list-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
     cy.get('@circles').not('[class*="circle_small"]').as('mainCircles');
 
     cy.get('@mainCircles').each((circle, index) => {

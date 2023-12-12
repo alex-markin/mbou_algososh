@@ -9,11 +9,11 @@ import { SortingPage } from "../sorting-page/sorting-page";
 import { StackPage } from "../stack-page/stack-page";
 import { ROUTES } from "../../constants/routes";
 
-import "./app.css";
+import styles from "./app.module.css";
 
 function App() {
   return (
-    <div className="app">
+    <div className={styles.app}>
       <HashRouter>
         <Switch>
           <Route path={ROUTES.HOME} exact>

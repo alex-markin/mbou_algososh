@@ -1,10 +1,12 @@
 
-import { ROUTES } from '../../src/constants/routes';
+import { ROUTES, testURL } from '../../src/constants/routes';
 import { Queue } from '../../src/components/queue-page/queue';
 import { MAX_INPUT_VALUE } from '../../src/constants/queue';
 import { ElementStates } from '../../src/types/element-states';
 import { DELAY_IN_MS } from '../../src/constants/delays';
 import { CIRCLES_COUNT } from '../../src/constants/queue';
+import { CIRCLES } from "../../src/constants/cypress-selectors";
+
 
 describe('queuePage functions properly', () => {
 
@@ -13,7 +15,7 @@ describe('queuePage functions properly', () => {
 
 
   beforeEach(() => {
-    cy.visit(`http://localhost:3000/#${ROUTES.QUEUE}`);
+    cy.visit(`${testURL}${ROUTES.QUEUE}`);
   });
 
   it('should disable the button when input is empty', () => {
@@ -24,7 +26,7 @@ describe('queuePage functions properly', () => {
 
   it('should elements to the queue correctly', () => {
     queue.reset();
-    cy.get('[class*="queue-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // add several elements and check animation
     for (let i = 0; i <= ITERATIONS; i++) {
@@ -63,7 +65,7 @@ describe('queuePage functions properly', () => {
 
   it('should add and then delete elements from the queue correctly', () => {
     queue.reset();
-    cy.get('[class*="queue-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // add several elements
     addElementToQueue(queue, ITERATIONS);
@@ -98,7 +100,7 @@ describe('queuePage functions properly', () => {
 
   it('should reset the queue correctly', () => {
     queue.reset();
-    cy.get('[class*="queue-page_outputBlock"]').get('[class*="circle_circle"]').as('circles');
+    cy.get(CIRCLES).as('circles');
 
     // add several elements
     addElementToQueue(queue, ITERATIONS);

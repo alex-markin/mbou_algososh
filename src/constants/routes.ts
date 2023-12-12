@@ -8,3 +8,5 @@ export const ROUTES = {
   STACK: '/stack',
   SORTING: '/sorting',
 };
+
+export const testURL = 'http://localhost:3000/#';

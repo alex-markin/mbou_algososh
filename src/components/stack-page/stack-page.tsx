@@ -13,10 +13,10 @@ import { ElementStates } from "../../types/element-states";
 // utils & constants
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { Stack, TStack } from "./stack";
+import { MAX_INPUT_LENGTH } from "../../constants/stack";
 
 export const StackPage: React.FC = () => {
 
-  const max = 4; // maximum value for input
   const stack = useRef<TStack<string>>(new Stack());
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export const StackPage: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value.length <= max) {
+    if (value.length <= MAX_INPUT_LENGTH) {
       setInputValue(value);
     } else {
       setInputValue("");
@@ -75,7 +75,7 @@ export const StackPage: React.FC = () => {
             value={inputValue}
             type="text"
             placeholder="Введите значение"
-            maxLength={max}
+            maxLength={MAX_INPUT_LENGTH}
             isLimitText={true}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
           />

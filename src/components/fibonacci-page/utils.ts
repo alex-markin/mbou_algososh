@@ -5,6 +5,8 @@ export function getFibonacciNumbers(n: number): number[] {
     arr.push(arr[i - 1] + arr[i - 2]);
   }
 
+  arr.shift(); // deletes 0
+
   return arr;
 }
 

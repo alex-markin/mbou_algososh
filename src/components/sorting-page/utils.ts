@@ -46,9 +46,14 @@ export function bubbleSorting(
   array: number[],
   direction: Direction
 ): SortingStep[] {
+
   const sortingSteps: SortingStep[] = [];
   let currentArray = [...array];
   let arrayLength = currentArray.length;
+
+  if (arrayLength === 1) {
+    return [{ currentArray: [1], indexA: 0, indexB: 0, sortedArray: currentArray }];
+  }
 
   for (let i = 0; i < arrayLength; i++) {
     let isSwapped = false;
@@ -92,6 +97,6 @@ export function bubbleSorting(
       sortedArray: currentArray.slice(-i - 1),
     });
   }
-
+  
   return sortingSteps;
 }

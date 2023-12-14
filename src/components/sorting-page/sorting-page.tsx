@@ -153,8 +153,8 @@ export const SortingPage: React.FC = () => {
     if (currentStep) {
       if (currentStep.sortedArray.includes(array[index])) {
         return ElementStates.Modified;
-      } 
-      
+      }
+
       if (index === activeIndexA || index === activeIndexB) {
         return ElementStates.Changing;
       }
@@ -181,8 +181,6 @@ export const SortingPage: React.FC = () => {
       }
     }
   }, [sortingDirection, radioValue]);
-
-
 
 
   return (
